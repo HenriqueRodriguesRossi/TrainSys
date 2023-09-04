@@ -5,14 +5,16 @@
         <form @submit.prevent="handlerLogin" id="form">
             <div class="fields">
                 <label for="email" class="label">Email:</label>
-                <input type="email" placeholder="Digite o seu e-mail..." v-model="email" class="inputs" v-on:input="clearEmailError">
+                <input type="email" placeholder="Digite o seu e-mail..." v-model="email" class="inputs"
+                    v-on:input="clearEmailError" autofocus>
                 <br>
                 <span class="inputErrors">{{ inputEmailError }}</span>
             </div>
 
             <div class="fields">
                 <label for="password" class="label">Senha:</label>
-                <input type="password" placeholder="Digite a sua senha..." v-model="password" class="inputs" v-on:input="clearPasswordError">
+                <input type="password" placeholder="Digite a sua senha..." v-model="password" class="inputs"
+                    v-on:input="clearPasswordError">
                 <br>
                 <span class="inputErrors">{{ inputPasswordError }}</span>
             </div>
@@ -24,7 +26,7 @@
 
         <span class="result">{{ error }}</span>
 
-        <span class="spanCadastro">Ainda não tem conta? <RouterLink to="/users">Cadastre-se</RouterLink></span>
+        <span class="spanCadastro">Ainda não tem conta? <RouterLink to="/registration">Cadastre-se</RouterLink></span>
     </div>
 </template>
   
@@ -58,20 +60,23 @@ export default {
                 this.inputPasswordError = "A senha é obrigatória!";
             }
 
-            axios.post('http://localhost:3000/sessions', {
+            axios.post('http://localhost:8080/sessions', {
                 email: this.email,
                 password: this.password
             }).then((response) => {
-                localStorage.setItem('userName', response.data.user.name);
+                if (response.status == 200) {
+                    localStorage.setItem('name', response.data.name);
 
-                localStorage.setItem('token', response.data.token);
-                
+                    localStorage.setItem('token', response.data.token);
+
+                    console.log("Login efetuado com sucesso!")
+                }
             }).catch((erro) => {
                 console.log(erro)
                 this.error = "Email ou senha incorretos!"
             })
         },
-        clearEmailError(){
+        clearEmailError() {
             this.inputEmailError = ''
         },
         clearPasswordError() {
@@ -182,7 +187,7 @@ h3 {
     color: gold;
 }
 
-.result{
+.result {
     color: red;
     margin-top: 15px;
     font-size: 16px;
