@@ -69,7 +69,7 @@ export default {
 
                     localStorage.setItem('token', response.data.token);
 
-                    console.log("Login efetuado com sucesso!")
+                    this.$router.push("/dashboard")
                 }
             }).catch((erro) => {
                 console.log(erro)

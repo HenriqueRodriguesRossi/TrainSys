@@ -59,7 +59,6 @@
 import * as Yup from "yup";
 import { RouterLink } from "vue-router";
 import axios from "axios";
-import { useRouter } from "vue-router"
 
 
 export default {
@@ -95,8 +94,7 @@ export default {
                 if (response.status === 201) {
                     this.success = "Usuário cadastrado com sucesso!";
 
-                    const router = useRouter();
-                    router.push("/");
+                    this.$router.push("/")
                 } else {
                     console.log(response);
                 }
