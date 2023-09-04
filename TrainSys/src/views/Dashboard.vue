@@ -1,16 +1,5 @@
 <template>
-    <header>
-        <h1>Lab Treinos</h1>
-
-        <nav>
-            <ul>
-                <li>Home</li>
-                <li>Alunos</li>
-                <li>Exercícios</li>
-                <li>Sair</li>
-            </ul>
-        </nav>
-    </header>
+    <Header/>
     <main>
         <h2>Bem-vindo {{ name }}!</h2>
 
@@ -23,7 +12,7 @@
 
                 <p>{{ amount_students }} estudantes</p>
 
-                <button class="add_button">Adicionar</button>
+                <button class="add_button"><RouterLink to="/students">Adicionar</RouterLink></button>
             </div>
 
             <div class="div-exercises">
@@ -32,7 +21,7 @@
                 </span>
                 <p>{{ amount_exercises }} exercícios</p>
 
-                <button class="add_button">Adicionar</button>
+                <button class="add_button"><RouterLink to="/exercises">Adicionar</RouterLink></button> 
             </div>
         </div>
     </main>
@@ -41,9 +30,13 @@
 <script>
 import { RouterLink } from 'vue-router';
 import axios from "axios"
+import Header from '../components/Header.vue';
 
 export default {
     name: "Dashboard",
+    components:{
+        Header
+    },
     data() {
         return {
             name: "",
@@ -68,33 +61,6 @@ export default {
 </script>
 
 <style scoped>
-header {
-    width: 100%;
-    height: 100px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background-color: gold;
-}
-
-header h1 {
-    color: ghostwhite;
-}
-
-header ul {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    list-style: none;
-}
-
-header ul li {
-    margin-right: 20px;
-    width: auto;
-    cursor: pointer;
-    color: ghostwhite;
-}
-
 main {
     width: 100%;
     height: 100vh;
@@ -148,6 +114,16 @@ p{
     color: gold;
     border: 2px solid gold;
     transition: all 0.5s;
+}
+
+.add_button a{
+    color: gold;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.add_button a:hover{
+    color: ghostwhite;
 }
 
 .add_button:hover{
