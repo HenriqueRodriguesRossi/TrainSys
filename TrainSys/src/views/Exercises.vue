@@ -139,11 +139,6 @@ main {
     transition: all 0.5s;
 }
 
-.error-border {
-    border: 2px solid red;
-    border-radius: 10px;
-}
-
 #form input:focus {
     border: 2px solid gold;
     border-radius: 20px;
