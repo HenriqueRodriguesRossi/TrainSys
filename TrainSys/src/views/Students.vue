@@ -10,12 +10,15 @@
                 <h2>Alunos</h2>
             </div>
 
-            <button class="new-student-button">Novo</button>
+            <button class="new-student-button">
+                <RouterLink to="/new-student">Novo</RouterLink>
+            </button>
         </div>
         <div class="form-container">
             <form id="form" @submit.prevent="handlerSearch">
                 <div class="field">
-                    <input type="text" class="inputs" placeholder="Digite o nome do aluno..." v-model="student_name" autofocus @input="clearErrorStudentInput">
+                    <input type="text" class="inputs" placeholder="Digite o nome do aluno..." v-model="student_name"
+                        autofocus @input="clearErrorStudentInput">
                 </div>
                 <button class="search_button">Buscar</button>
             </form>
@@ -35,41 +38,60 @@
 </template>
 
 <script>
+import { RouterLink } from 'vue-router';
 import Header from '../components/Header.vue';
 import axios from 'axios'
 
 export default {
     name: "Students",
     components: {
-        Header
+        Header,
+        RouterLink
     },
-    mounted(){
-        axios.get("http://localhost:8080/students").then((response)=>{
+    mounted() {
+        axios.get("http://localhost:8080/students").then((response) => {
             this.apiResponse = response.data.students
-
-            if(this.apiResponse == ""){
-                this.warning = "Nenhum aluno cadastrado!"
-            }
-        }).catch((error)=>{
+        }).catch((error) => {
             console.log(error)
         })
     },
-    data(){
-        return{
+    data() {
+        return {
             student_name: "",
+
             errors: "",
             success: "",
+
             apiResponse: "",
             warning: ""
         }
     },
-    methods:{
-        handlerSearch(){
-            if(this.student_name == ""){
+    methods: {
+        handlerSearch() {
+            if (this.student_name == "") {
                 this.errors = "Nome do aluno é obrigatório!"
+            } else {
+                axios.get("http://localhost:8080/students", {
+
+                    params: { name: this.student_name }
+
+                }).then((response) => {
+                    if (response.data.students.length === 0) {
+                        this.warning = "Nenhum aluno encontrado!";
+
+                        self = this
+                        setTimeout(function () {
+                            self.warning = "";
+                        }, 3000);
+                    } else {
+                        this.apiResponse = response.data.students;
+                    }
+                }).catch((error) => {
+                    console.log(error)
+                })
             }
         },
-        clearErrorStudentInput(){
+        clearErrorStudentInput() {
             this.errors = ""
         }
     }
@@ -82,18 +104,19 @@ main {
     background-color: rgb(28, 28, 28);
 }
 
-.div_container{
+.div_container {
     padding-top: 30px;
     border-bottom: 2px solid ghostwhite;
 }
 
-.div_container, .texts{
+.div_container,
+.texts {
     width: auto;
     display: flex;
     justify-content: space-around;
 }
 
-.div_container .texts h2{
+.div_container .texts h2 {
     color: ghostwhite;
     font-size: 40px;
     margin-left: 15px;
@@ -105,20 +128,29 @@ main {
     margin-left: 160px;
 }
 
-.div_container .new-student-button{
+.div_container .new-student-button {
     width: 150px;
     height: 33px;
     background-color: transparent;
     border-radius: 30px;
     border: 2px solid gold;
-    color: gold;
     transition: 0.5s;
 }
 
-.div_container .new-student-button:hover{
+.div_container .new-student-button:hover {
     border: 2px solid ghostwhite;
     color: ghostwhite;
     cursor: pointer;
+}
+
+.div_container .new-student-button a {
+    color: gold;
+    transition: 0.5s;
+    text-decoration: none;
+}
+
+.div_container .new-student-button a:hover {
+    color: ghostwhite;
 }
 
 #form {
@@ -163,7 +195,7 @@ main {
     color: ghostwhite;
 }
 
-.warnig-spans .span-error{
+.warnig-spans .span-error {
     color: red;
     font-size: 20px;
     display: flex;
@@ -172,14 +204,14 @@ main {
     padding-top: 10px;
 }
 
-.warnig-spans .span-success{
+.warnig-spans .span-success {
     color: green;
     font-size: 20px;
     display: flex;
     justify-content: center;
 }
 
-.apiResponse{
+.apiResponse {
     font-size: 16px;
     color: ghostwhite;
     display: flex;
@@ -188,7 +220,7 @@ main {
     align-items: center;
 }
 
-.warning{
+.warning {
     color: ghostwhite;
     font-size: 20px;
     display: flex;
