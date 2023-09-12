@@ -1,6 +1,6 @@
 <template>
 <header>
-        <h1>Lab Treinos</h1>
+        <h1>TrainSys</h1>
 
         <nav>
             <ul>
