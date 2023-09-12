@@ -58,23 +58,23 @@ export default {
             if (this.email == "" || this.password == "") {
                 this.inputEmailError = "O email é obrigatório!";
                 this.inputPasswordError = "A senha é obrigatória!";
+            } else {
+                axios.post('http://localhost:8080/sessions', {
+                    email: this.email,
+                    password: this.password
+                }).then((response) => {
+                    if (response.status == 200) {
+                        localStorage.setItem('name', response.data.name);
+
+                        localStorage.setItem('token', response.data.token);
+
+                        this.$router.push("/dashboard")
+                    }
+                }).catch((erro) => {
+                    console.log(erro)
+                    this.error = "Email ou senha incorretos!"
+                })
             }
-
-            axios.post('http://localhost:8080/sessions', {
-                email: this.email,
-                password: this.password
-            }).then((response) => {
-                if (response.status == 200) {
-                    localStorage.setItem('name', response.data.name);
-
-                    localStorage.setItem('token', response.data.token);
-
-                    this.$router.push("/dashboard")
-                }
-            }).catch((erro) => {
-                console.log(erro)
-                this.error = "Email ou senha incorretos!"
-            })
         },
         clearEmailError() {
             this.inputEmailError = ''
