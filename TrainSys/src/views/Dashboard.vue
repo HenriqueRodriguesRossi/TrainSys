@@ -12,7 +12,7 @@
 
                 <p>{{ amount_students }} estudantes</p>
 
-                <button class="add_button"><RouterLink to="/students">Adicionar</RouterLink></button>
+                <button class="add_button"><RouterLink to="/new-student">Adicionar</RouterLink></button>
             </div>
 
             <div class="div-exercises">
@@ -21,7 +21,7 @@
                 </span>
                 <p>{{ amount_exercises }} exercícios</p>
 
-                <button class="add_button"><RouterLink to="/exercises">Adicionar</RouterLink></button> 
+                <button class="add_button"><RouterLink to="/new-exercise">Adicionar</RouterLink></button> 
             </div>
         </div>
     </main>
