@@ -32,6 +32,7 @@
 <script>
 import Header from '../components/Header.vue';
 import * as Yup from 'yup';
+import axios from 'axios';
 
 export default {
     name: 'NewStudent',
@@ -145,7 +146,7 @@ export default {
     methods: {
         async validateAddress() {
             try {
-                const response = await axios.get(`https://viacep.com.br/ws/${this.cep}/json/`);
+                const response = await axios.get(`https://viacep.com.br/ws/${this.cep.replace('-', '')}/json/`);
 
                 if (response.data.erro) {
                     this.fieldsErrors.cep = 'CEP não encontrado ou inválido.';
@@ -156,6 +157,7 @@ export default {
                     this.province = response.data.uf;
                     this.complement = response.data.complemento || '';
 
+
                     this.fieldsErrors.cep = '';
                 }
             } catch (error) {
@@ -163,6 +165,7 @@ export default {
                 this.fieldsErrors.cep = 'Erro ao buscar o endereço.';
             }
         },
+
 
         async handlerStudentRegister() {
             try {
@@ -199,12 +202,12 @@ export default {
                 await this.validateAddress();
 
                 const response = await axios.post("http://localhost:8080/students", this);
-        
-                if(response.status === 201){
+
+                if (response.status === 201) {
                     this.success = "Estudante cadastrado com sucesso!";
                 }
 
-                
+
             } catch (error) {
                 if (error instanceof Yup.ValidationError) {
                     error.inner.forEach((err) => {

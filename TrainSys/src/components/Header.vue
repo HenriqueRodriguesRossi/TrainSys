@@ -1,6 +1,6 @@
 <template>
 <header>
-        <h1>TrainSys</h1>
+        <h1><RouterLink to="/dashboard">TrainSys</RouterLink></h1>
 
         <nav>
             <ul>
@@ -30,8 +30,10 @@ header {
     background-color: gold;
 }
 
-header h1 {
+header h1 a{
     color: ghostwhite;
+    text-decoration: none;
+    font-size: 40px;
 }
 
 header ul {

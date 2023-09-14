@@ -66,6 +66,8 @@ export default {
                     if (response.status == 200) {
                         localStorage.setItem('name', response.data.name);
 
+                        localStorage.setItem('id', response.data._id);
+
                         localStorage.setItem('token', response.data.token);
 
                         this.$router.push("/dashboard")

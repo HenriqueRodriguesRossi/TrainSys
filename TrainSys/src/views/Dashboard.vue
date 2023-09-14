@@ -21,7 +21,7 @@
                 </span>
                 <p>{{ amount_exercises }} exercícios</p>
 
-                <button class="add_button"><RouterLink to="/exercises">Adicionar</RouterLink></button> 
+                <button class="add_button"><RouterLink to="/new-exercise">Adicionar</RouterLink></button> 
             </div>
         </div>
     </main>
