@@ -101,7 +101,7 @@ export default {
             } catch (error) {
                 if (error instanceof Yup.ValidationError) {
                     error.inner.forEach((error) => {
-                        errors[error.path].push(error.message)
+                        this.errors[error.path].push(error.message)
                     });
                 }
             }

@@ -3,99 +3,76 @@
         <Header />
         <main>
             <div class="title_div">
-                <span class="material-symbols-outlined">
-                    fitness_center
-                </span>
+                <span class="material-symbols-outlined">fitness_center</span>
                 <h2>Treino</h2>
             </div>
 
             <span class="message">{{ notExerciseMessage }}</span>
             <form id="form" @submit.prevent="handlerNewTraining">
                 <div class="fields">
-                    <label for="exercise">Qual exercício: </label> <br>
-                    <select v-model="selectedExercise" class="custom-select">
+                    <label for="exercise">Qual exercício:</label>
+                    <br>
+                    <select v-model="formData.selectedExercise" class="custom-select">
                         <option value="" disabled selected>Selecione um exercício</option>
                         <option v-for="exercise in exercises" :key="exercise.id" :value="exercise.id">
                             {{ exercise.description }}
                         </option>
-                    </select> <br>
-
+                    </select>
+                    <br>
                     <span class="yupErrorMessage">{{ yupErrorMessage.selectedExercise }}</span>
                 </div>
+
                 <div class="fields">
-                    <label for="repeticoes">Repetições: </label> <br>
-
-                    <input type="number" id="repeticoes" placeholder="Digite a quantidade de repetições..." class="inputs"
-                        v-model="repetitions">
+                    <label for="repeticoes">Repetições:</label>
                     <br>
-
+                    <input type="number" id="repeticoes" placeholder="Digite a quantidade de repetições..." class="inputs"
+                        v-model="formData.repetitions">
+                    <br>
                     <span class="yupErrorMessage">{{ yupErrorMessage.repetitions }}</span>
                 </div>
 
                 <div class="fields">
-                    <label for="peso">Peso:</label> <br>
-
-                    <input type="number" class="inputs" placeholder="Digite o peso desejado..." v-model="weight"> <br>
-
+                    <label for="peso">Peso:</label>
+                    <br>
+                    <input type="number" class="inputs" placeholder="Digite o peso desejado..." v-model="formData.weight">
+                    <br>
                     <span class="yupErrorMessage">{{ yupErrorMessage.weight }}</span>
                 </div>
 
                 <div class="fields">
-                    <label for="pausa">Pausa: </label> <br>
-
-                    <input type="time" id="pausa" placeholder="Digite o tempo de pausa..." class="inputs"
-                        v-model="break_time">
+                    <label for="pausa">Pausa:</label>
                     <br>
-
+                    <input type="time" id="pausa" placeholder="Digite o tempo de pausa..." class="inputs"
+                        v-model="formData.break_time">
+                    <br>
                     <span class="yupErrorMessage">{{ yupErrorMessage.break_time }}</span>
                 </div>
+
                 <div class="fields">
-                    <label for="dia">Dia da semana: </label> <br>
-
-                    <select id="diaDaSemana" v-model="day">
-                        <option value="segunda">
-                            Segunda-feira
-                        </option>
-
-                        <option value="terca">
-                            Terça-feira
-                        </option>
-
-                        <option value="quarta">
-                            Quarta-feira
-                        </option>
-
-                        <option value="quinta">
-                            Quinta-feira
-                        </option>
-
-                        <option value="sexta">
-                            Sexta-feira
-                        </option>
-
-                        <option value="sabado">
-                            Sábado
-                        </option>
-
-                        <option value="domingo">
-                            Domingo
-                        </option>
+                    <label for="dia">Dia da semana:</label>
+                    <br>
+                    <select id="diaDaSemana" v-model="formData.day">
+                        <option value="segunda">Segunda-feira</option>
+                        <option value="terca">Terça-feira</option>
+                        <option value="quarta">Quarta-feira</option>
+                        <option value="quinta">Quinta-feira</option>
+                        <option value="sexta">Sexta-feira</option>
+                        <option value="sabado">Sábado</option>
+                        <option value="domingo">Domingo</option>
                     </select>
                     <br>
-
-                    <span class="yupErrorMessage">{{ yupErrorMessage.day }}
-                    </span>
+                    <span class="yupErrorMessage">{{ yupErrorMessage.day }}</span>
                 </div>
 
                 <div class="fields">
-                    <label for="obs">Observação: </label> <br>
+                    <label for="obs">Observação:</label>
+                    <br>
+                    <textarea id="obs" placeholder="Digite uma observacao..." v-model="formData.observations"></textarea>
 
-                    <textarea id="obs" placeholder="Digite uma observacao..." v-model="observations"></textarea> <br>
+                    <span class="yupErrorMessage">{{ yupErrorMessage.observations }}</span>
                 </div>
 
-                <button type="submit" class="button">
-                    Cadastrar
-                </button>
+                <button type="submit" class="button">Cadastrar</button>
             </form>
 
             <span class="errorMessage">{{ errorMessage }}</span>
@@ -118,41 +95,41 @@ export default {
     },
     data() {
         return {
-            selectedExercise: '',
+            formData: {
+                selectedExercise: null,
+                repetitions: 0,
+                weight: 0,
+                break_time: '00:00',
+                observations: '',
+                day: null
+            },
             exercises: [],
             notExerciseMessage: '',
-
             errorMessage: '',
             successMessage: '',
-
-
-            repetitions: 0,
-            weight: 0, //peso
-            break_time: '00:00',
-            observations: '',
-            day: null,
-
             yupErrorMessage: {}
         };
     },
     mounted() {
-        axios.get('http://localhost:8080/exercises')
-            .then(response => {
+        this.loadExercises();
+    },
+    methods: {
+        async loadExercises() {
+            try {
+                const response = await axios.get('http://localhost:8080/exercises');
                 this.exercises = response.data;
 
                 if (this.exercises.length === 0) {
                     this.notExerciseMessage = "Cadaste um exercício primeiro!";
                 }
-            })
-            .catch(error => {
+            } catch (error) {
                 console.error('Erro ao obter a lista de exercícios:', error);
-            });
-    },
-    methods: {
+            }
+        },
         async handlerNewTraining() {
             try {
-                this.errorMessage = ""
-                this.successMessage = ""
+                this.errorMessage = "";
+                this.successMessage = "";
 
                 const trainingSchema = Yup.object().shape({
                     selectedExercise: Yup.string().required('Selecione um exercício'),
@@ -163,41 +140,33 @@ export default {
                     observations: Yup.string(),
                 });
 
-                await trainingSchema.validate(this, { abortEarly: false })
+                await trainingSchema.validate(this.formData, { abortEarly: false });
 
-                axios.post("http://localhodt:8080/workouts", {
+                const response = await axios.post("http://localhost:8080/workouts", {
                     student_id: localStorage.getItem('id'),
-                    exercise_id: selectedExercise.id,
-                    repetitions: this.repetitions,
-                    weight: this.weight,
-                    break_time: this.break_time,
-                    observations: this.observations,
-                    day: this.day
-                }).then((response) => {
-                    this.successMessage = "Treino cadastrado com sucesso!"
+                    exercise_id: this.formData.selectedExercise,
+                    repetitions: this.formData.repetitions,
+                    weight: this.formData.weight,
+                    break_time: this.formData.break_time,
+                    observations: this.formData.observations,
+                    day: this.formData.day
+                });
 
-                    console.log(response.data)
-                }).catch((error) => {
-                    this.errorMessage = "Erro ao cadastrar o treino!"
-
-                    console.log(error)
-                })
+                this.successMessage = "Treino cadastrado com sucesso!";
+                console.log(response.data);
             } catch (error) {
-                if (error instanceof Yup.ValidationError) {
-                    this.yupErrorMessage = {};
+                this.yupErrorMessage = {};
 
-                    error.inner.forEach((err) => {
-                        if (!this.yupErrorMessage[err.path]) {
-                            this.$set(this.yupErrorMessage, err.path, []);
-                        }
-                        this.yupErrorMessage[err.path].push(err.message);
+                if (error instanceof Yup.ValidationError) {
+                    error.inner.forEach((error) => {
+                        this.yupErrorMessage[error.path].push(error.message)
                     });
                 }
                 
                 if (error.response && error.response.status === 500) {
-                    this.errors = 'Erro interno no servidor ao buscar o endereço. Tente novamente mais tarde.';
+                    this.errorMessage = 'Erro interno no servidor ao buscar o endereço. Tente novamente mais tarde.';
                 } else {
-                    this.errors = 'Erro ao buscar o endereço.';
+                    this.errorMessage = 'Erro ao buscar o endereço.';
                 }
                 console.error('Erro ao buscar endereço:', error);
             }
@@ -258,7 +227,6 @@ label {
     font-size: 20px;
 }
 
-
 .custom-select,
 .inputs,
 select {
@@ -317,7 +285,8 @@ textarea:focus {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 40px;
+    margin-top: 10px;
+    padding-bottom: 60px;
 }
 
 .errorMessage {
