@@ -107,9 +107,11 @@ export default {
             notExerciseMessage: '',
             errorMessage: '',
             successMessage: '',
-            yupErrorMessage: {}
+            yupErrorMessage: {},
+            errors: {}
         };
     },
+
     mounted() {
         this.loadExercises();
     },
@@ -130,6 +132,7 @@ export default {
             try {
                 this.errorMessage = "";
                 this.successMessage = "";
+                this.errors = {};
 
                 const trainingSchema = Yup.object().shape({
                     selectedExercise: Yup.string().required('Selecione um exercício'),
@@ -155,20 +158,13 @@ export default {
                 this.successMessage = "Treino cadastrado com sucesso!";
                 console.log(response.data);
             } catch (error) {
-                this.yupErrorMessage = {};
-
                 if (error instanceof Yup.ValidationError) {
                     error.inner.forEach((error) => {
-                        this.yupErrorMessage[error.path].push(error.message)
+                        this.errors[error.path] = error.message;
                     });
                 }
-                
-                if (error.response && error.response.status === 500) {
-                    this.errorMessage = 'Erro interno no servidor ao buscar o endereço. Tente novamente mais tarde.';
-                } else {
-                    this.errorMessage = 'Erro ao buscar o endereço.';
-                }
-                console.error('Erro ao buscar endereço:', error);
+
+                this.errorMessage = 'Erro ao cadastrar o treino!';
             }
         }
     }
