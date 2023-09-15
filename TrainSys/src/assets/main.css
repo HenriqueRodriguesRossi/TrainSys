@@ -4,3 +4,10 @@
   box-sizing: border-box;
   font-family: Arial;
 }
+
+
+@media(max-width: 922px){
+  html{
+    overflow-x: hidden;
+  }
+} 

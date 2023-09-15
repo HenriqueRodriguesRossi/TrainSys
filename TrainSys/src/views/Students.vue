@@ -30,9 +30,14 @@
             </div>
         </div>
         <div class="result-container">
-            <span class="warning">{{ warning }}</span>
+            <div class="result-person">
+            <span class="apiResponse"> Maria Joaquina<!--{{ apiResponse }}--></span>
+            
+            <button class="training-button"><RouterLink to="/exercises">Ver treino</RouterLink></button>
 
-            <span class="apiResponse" v-if="apiResponse.length > 0">{{ apiResponse }}</span>
+        </div>
+
+        <span class="warning"><!--{{ warning }}--></span>
         </div>
     </main>
 </template>
@@ -176,7 +181,7 @@ main {
     border-radius: 20px;
 }
 
-#form button {
+#form button{
     width: 160px;
     height: 35px;
     outline: none;
@@ -192,6 +197,42 @@ main {
 
 #form button:hover {
     border: 2px solid ghostwhite;
+    color: ghostwhite;
+}
+
+.result-person{
+    width: auto;
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.training-button {
+    width: 160px;
+    height: 30px;
+    outline: none;
+    border-radius: 10px;
+    border: 2px solid gold;
+    background-color: transparent;
+    color: gold;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: all 0.5s;
+}
+
+.training-button a{
+    color: gold;
+    font-size: 16px;
+    text-decoration: none;
+    transition: all 0.5s;
+}
+
+.training-button:hover{
+    border: 2px solid ghostwhite;
+}
+
+.training-button a:hover{
     color: ghostwhite;
 }
 
@@ -212,7 +253,7 @@ main {
 }
 
 .apiResponse {
-    font-size: 16px;
+    font-size: 20px;
     color: ghostwhite;
     display: flex;
     flex-direction: column;

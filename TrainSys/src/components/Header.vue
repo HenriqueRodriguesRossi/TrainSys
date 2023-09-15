@@ -2,6 +2,11 @@
 <header>
         <h1><RouterLink to="/dashboard">TrainSys</RouterLink></h1>
 
+        <span class="material-symbols-outlined" @click=" selectedMenu = true">
+            menu
+        </span>
+
+
         <nav>
             <ul>
                 <RouterLink to="/dashboard">Home</RouterLink>
@@ -16,7 +21,12 @@
 <script>
 import { RouterLink } from 'vue-router';
 export default{
-    name:"Header"
+    name:"Header",
+    data(){
+        return{
+            selectedMenu: false
+        }
+    }
 }
 </script>
 
@@ -34,6 +44,14 @@ header h1 a{
     color: ghostwhite;
     text-decoration: none;
     font-size: 40px;
+}
+
+header .material-symbols-outlined{
+    color: ghostwhite;
+    font-size: 40px;
+    cursor: pointer;
+    text-align: center;
+    display: none;
 }
 
 header ul {
@@ -58,4 +76,20 @@ header ul a:hover{
     color: rgb(28, 28, 28);
     text-decoration: underline;
 }
+
+@media(max-width: 922px){
+    header .material-symbols-outlined{
+        display: block;
+        text-align: center;
+        transition: all 0.5s;
+    }
+
+    header .material-symbols-outlined:hover{
+        color: rgb(28, 28, 28);
+    }
+
+    header ul li{
+        display: none;
+    }
+} 
 </style>
