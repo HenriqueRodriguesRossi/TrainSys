@@ -145,23 +145,26 @@ export default {
     },
     methods: {
         async validateAddress() {
+            localStorage.setItem("studantName", this.formData.name)
+            
             try {
-                const response = await axios.get(`https://viacep.com.br/ws/${this.cep.replace('-', '')}/json/`);
+                const response = await axios.get(`https://viacep.com.br/ws/${this.cep}/json/`);
 
-                if (response.data.erro) {
-                    this.fieldsErrors.cep = 'CEP não encontrado ou inválido.';
+                if (response.data.cep) {
+                    this.street = response.data.logradouro || '';
+                    this.number = '';
+                    this.neighborhood = response.data.bairro || '';
+                    this.city = response.data.localidade || '';
+                    this.province = response.data.uf || '';
+                    this.complement = '';
                 } else {
-                    this.street = response.data.logradouro;
-                    this.neighborhood = response.data.bairro;
-                    this.city = response.data.localidade;
-                    this.province = response.data.uf;
-                    this.complement = response.data.complemento || '';
+                    this.clearAddressFields();
 
-
-                    this.fieldsErrors.cep = '';
+                    console.error('CEP não encontrado');
                 }
             } catch (error) {
                 console.error('Erro ao buscar endereço:', error);
+
                 this.fieldsErrors.cep = 'Erro ao buscar o endereço.';
             }
         },
@@ -203,11 +206,7 @@ export default {
 
                 const response = await axios.post("http://localhost:8080/students", this);
 
-                if (response.status === 201) {
-                    this.success = "Estudante cadastrado com sucesso!";
-                }
-
-
+                this.success = "Estudante cadastrado com sucesso!";
             } catch (error) {
                 if (error instanceof Yup.ValidationError) {
                     error.inner.forEach((err) => {
@@ -218,6 +217,15 @@ export default {
         },
         clearError(fieldName) {
             this.fieldsErrors[fieldName] = '';
+        },
+
+        clearAddressFields() {
+            this.street = '';
+            this.number = '';
+            this.neighborhood = '';
+            this.city = '';
+            this.province = '';
+            this.complement = '';
         },
     },
 };
