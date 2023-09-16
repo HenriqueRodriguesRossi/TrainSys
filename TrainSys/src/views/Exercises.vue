@@ -98,7 +98,7 @@ export default {
 
 <style scoped>
 main {
-    height: auto;
+    height: 100%;
     background-color: rgb(28, 28, 28);
 }
 
@@ -180,13 +180,16 @@ main {
     margin-bottom: 30px;
 }
 
+.apiResponse{
+    padding-bottom: 50px;
+}
+
 .exercise-table {
     border-collapse: collapse;
     margin: 0 auto;
     width: 70%;
     border: 2px solid gold;
     background-color: rgb(28, 28, 28);
-    margin-bottom: 50px;
 }
 
 .exercise-table thead {

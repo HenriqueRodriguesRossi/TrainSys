@@ -29,10 +29,17 @@
                 <span class="span-error">{{ errors }}</span>
             </div>
         </div>
-        <div class="result-container">
-            <span class="warning">{{ warning }}</span>
+        <div class="result-container" v-if="apiResponse.length > 0">
+            <div class="result-person">
+                <span class="apiResponse"> {{ apiResponse}}</span>
 
-            <span class="apiResponse" v-if="apiResponse.length > 0">{{ apiResponse }}</span>
+                <button class="training-button">
+                    <RouterLink to="/exercises">Ver treino</RouterLink>
+                </button>
+
+            </div>
+
+            <span class="warning">{{ warning }}</span>
         </div>
     </main>
 </template>
@@ -195,6 +202,42 @@ main {
     color: ghostwhite;
 }
 
+.result-person {
+    width: auto;
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.training-button {
+    width: 160px;
+    height: 30px;
+    outline: none;
+    border-radius: 10px;
+    border: 2px solid gold;
+    background-color: transparent;
+    color: gold;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: all 0.5s;
+}
+
+.training-button a {
+    color: gold;
+    font-size: 16px;
+    text-decoration: none;
+    transition: all 0.5s;
+}
+
+.training-button:hover {
+    border: 2px solid ghostwhite;
+}
+
+.training-button a:hover {
+    color: ghostwhite;
+}
+
 .warnig-spans .span-error {
     color: red;
     font-size: 20px;
@@ -212,7 +255,7 @@ main {
 }
 
 .apiResponse {
-    font-size: 16px;
+    font-size: 20px;
     color: ghostwhite;
     display: flex;
     flex-direction: column;
