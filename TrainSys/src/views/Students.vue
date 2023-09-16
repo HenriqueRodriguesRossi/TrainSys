@@ -29,15 +29,17 @@
                 <span class="span-error">{{ errors }}</span>
             </div>
         </div>
-        <div class="result-container">
+        <div class="result-container" v-if="apiResponse.length > 0">
             <div class="result-person">
-            <span class="apiResponse"> Maria Joaquina<!--{{ apiResponse }}--></span>
-            
-            <button class="training-button"><RouterLink to="/exercises">Ver treino</RouterLink></button>
+                <span class="apiResponse"> {{ apiResponse}}</span>
 
-        </div>
+                <button class="training-button">
+                    <RouterLink to="/exercises">Ver treino</RouterLink>
+                </button>
 
-        <span class="warning"><!--{{ warning }}--></span>
+            </div>
+
+            <span class="warning">{{ warning }}</span>
         </div>
     </main>
 </template>
@@ -181,7 +183,7 @@ main {
     border-radius: 20px;
 }
 
-#form button{
+#form button {
     width: 160px;
     height: 35px;
     outline: none;
@@ -200,7 +202,7 @@ main {
     color: ghostwhite;
 }
 
-.result-person{
+.result-person {
     width: auto;
     display: flex;
     justify-content: center;
@@ -221,18 +223,18 @@ main {
     transition: all 0.5s;
 }
 
-.training-button a{
+.training-button a {
     color: gold;
     font-size: 16px;
     text-decoration: none;
     transition: all 0.5s;
 }
 
-.training-button:hover{
+.training-button:hover {
     border: 2px solid ghostwhite;
 }
 
-.training-button a:hover{
+.training-button a:hover {
     color: ghostwhite;
 }
 
