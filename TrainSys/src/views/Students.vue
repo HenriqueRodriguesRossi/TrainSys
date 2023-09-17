@@ -9,7 +9,6 @@
 
                 <h2>Alunos</h2>
             </div>
-
             <button class="new-student-button">
                 <RouterLink to="/new-student">Novo</RouterLink>
             </button>
@@ -30,17 +29,17 @@
             </div>
         </div>
         <div class="result-container" v-if="apiResponse.length > 0">
-            <div class="result-person">
-                <span class="apiResponse"> {{ apiResponse}}</span>
-
+            <div class="result-person" v-for="student in apiResponse" :key="student.id">
+                <span class="apiResponse">{{ student.name }}</span>
                 <button class="training-button">
-                    <RouterLink to="/exercises">Ver treino</RouterLink>
+                    <RouterLink to="/workout-view">Ver treino</RouterLink>
                 </button>
-
             </div>
-
             <span class="warning">{{ warning }}</span>
         </div>
+
+
+        <span class="warning">{{ warning }}</span>
     </main>
 </template>
 
@@ -74,30 +73,39 @@ export default {
         }
     },
     methods: {
-        handlerSearch() {
-            if (this.student_name == "") {
-                this.errors = "Nome do aluno é obrigatório!"
-            } else {
-                axios.get("http://localhost:8080/students", {
+        async handlerSearch() {
+            this.errors = "";
+            this.warning = "";
 
-                    params: { name: this.student_name }
+            if (this.student_name === "") {
+                this.errors = "Nome do aluno é obrigatório!";
+                return;
+            }
 
-                }).then((response) => {
-                    if (response.data.students.length === 0) {
-                        this.warning = "Nenhum aluno encontrado!";
+            try {
+                const response = await axios.get("http://localhost:8080/students", {
+                    params: { name: this.student_name },
+                });
 
-                        self = this
-                        setTimeout(function () {
-                            self.warning = "";
-                        }, 3000);
-                    } else {
-                        this.apiResponse = response.data.students;
-                    }
-                }).catch((error) => {
-                    console.log(error)
-                })
+                const students = response.data.students;
+
+                if (students.length === 0) {
+                    this.warning = "Nenhum aluno encontrado!";
+
+                    setTimeout(() => {
+                        this.warning = "";
+                    }, 3000);
+                } else {
+                    const studentNames = students.map((student) => student.name);
+                    this.apiResponse = studentNames;
+                }
+            } catch (error) {
+                console.error("Erro ao buscar alunos:", error);
+                this.errors = "Erro ao buscar alunos.";
             }
         },
+
+
         clearErrorStudentInput() {
             this.errors = ""
         }
@@ -107,7 +115,7 @@ export default {
 
 <style scoped>
 main {
-    height: 100vh;
+    height: 100%;
     background-color: rgb(28, 28, 28);
 }
 
@@ -268,5 +276,45 @@ main {
     font-size: 20px;
     display: flex;
     justify-content: center;
+}
+
+@media(max-width: 600px) {
+
+    .div_container h2,
+    .material-symbols-outlined {
+        width: auto;
+        display: flex;
+        justify-content: center;
+    }
+
+    .div_container .material-symbols-outlined {
+        margin-right: 100px;
+    }
+
+    #form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #form button {
+        height: 35px;
+        width: 150px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .div_container {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .div_container button {
+        margin-top: 10px;
+        margin-bottom: 15px;
+    }
 }
 </style>

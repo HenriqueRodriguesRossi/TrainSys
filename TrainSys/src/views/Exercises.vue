@@ -210,4 +210,28 @@ main {
 .exercise-table td:first-child {
     display: none;
 }
+
+@media(max-width: 600px){
+    .title_div h2 {
+    margin-left: 10px;
+}
+
+.title_div .material-symbols-outlined {
+    margin-left: 100px;
+}
+
+#form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#form button{
+    height: 35px;
+    width: 150px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+}
 </style>

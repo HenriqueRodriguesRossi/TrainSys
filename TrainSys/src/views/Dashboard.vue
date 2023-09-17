@@ -5,7 +5,7 @@
 
         <div class="info_container">
             
-            <div class="div-exercises">
+            <div class="div-students">
                 <span class="material-symbols-outlined">
                     face
                 </span>
@@ -15,7 +15,7 @@
                 <button class="add_button"><RouterLink to="/new-student">Adicionar</RouterLink></button>
             </div>
 
-            <div class="div-exercises">
+            <div class="div-exercise">
                 <span class="material-symbols-outlined" >
                     fitness_center
                 </span>
@@ -87,7 +87,7 @@ p{
     margin-top: 100px;
 }
 
-.div-exercises, .div-students{
+.div-exercise, .div-students{
     border: 2px solid gold;
     width: 400px;
     height: 200px;
@@ -131,5 +131,22 @@ p{
     color: ghostwhite;
     cursor: pointer;
     border-radius: 15px;
+}
+
+@media(max-width: 600px){
+    main{
+        height: auto;
+    }
+
+    .info_container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 50px;
+    }
+
+    .div-exercise{
+        margin-top: 30px;
+    }
 }
 </style>
