@@ -337,5 +337,21 @@ label {
 .error-message {
     color: red;
 }
-</style>
-  
+
+@media(max-width: 600px){
+    #form .fields{
+        width: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    #form .buttons{
+        width: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+</style> 

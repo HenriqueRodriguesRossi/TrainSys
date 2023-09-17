@@ -79,7 +79,11 @@ header .material-symbols-outlined {
     font-size: 40px;
     cursor: pointer;
     text-align: center;
+    transition: all 1s;
+}
 
+header .material-symbols-outlined:hover{
+    color: rgb(28, 28, 28);
 }
 
 header .list-container{

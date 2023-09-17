@@ -9,7 +9,6 @@
 
                 <h2>Alunos</h2>
             </div>
-
             <button class="new-student-button">
                 <RouterLink to="/new-student">Novo</RouterLink>
             </button>
@@ -31,7 +30,7 @@
         </div>
         <div class="result-container" v-if="apiResponse.length > 0">
             <div class="result-person">
-                <span class="apiResponse"> {{ apiResponse}}</span>
+                <span class="apiResponse"> {{ apiResponse }}</span>
 
                 <button class="training-button">
                     <RouterLink to="/exercises">Ver treino</RouterLink>
@@ -268,5 +267,43 @@ main {
     font-size: 20px;
     display: flex;
     justify-content: center;
+}
+
+@media(max-width: 600px) {
+    .div_container h2, .material-symbols-outlined {
+        width: auto;
+        display: flex;
+        justify-content: center;
+    }
+
+    .div_container .material-symbols-outlined {
+        margin-right: 100px;
+    }
+
+    #form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #form button {
+        height: 35px;
+        width: 150px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .div_container{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .div_container button{
+        margin-top: 10px;
+        margin-bottom: 15px;
+    }
 }
 </style>
